@@ -1,24 +1,78 @@
 import {
-  BrowserRouter as Router, Route
+  BrowserRouter as Router, Route, Redirect
 } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import Login from './components/Login';
 import Main from './components/Main';
+import Fire from './config/Fire';
 import './App.css';
 
-const App = () => (
-  <Router >
-    <Fragment>
+class App extends Component {
 
-      <div class='loginMenu'>
-        <Route exact path="/" component={Login} />
-      </div>
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+      isLoggedIn: false
+    }
+  }
 
-      <Route exact path="/main" component={Main} />
+  componentDidMount() {
+    this.authListener();
+  }
 
-    </Fragment>
+  authListener() {
+    Fire.auth().onAuthStateChanged((user) => {
+      if (user && this.state.isLoggedIn) {
+        this.setState({
+          user: null,
+          isLoggedIn: false
+        });
+      }
+      else if (user && !this.state.isLoggedIn) {
+        this.setState({
+          user: user,
+          isLoggedIn: true
+        });
+      }
+      else {
+        this.setState({
+          user: null,
+          isLoggedIn: false
+        })
+      }
+    });
+  }
 
-  </Router >
-);
+  render() {
+
+    const isLoggedIn = this.state.isLoggedIn;
+    let screen;
+
+    if (isLoggedIn) {
+      screen = <Main />
+
+    } else {
+      screen = <div class='loginMenu'> <Login /> </div>
+    }
+
+    /*
+
+    {this.state.user ? (<Main />) : (
+            <div class='loginMenu'>
+              <Route exact path="/" component={Login} />
+            </div>
+          )}
+
+    */
+    return (
+      <Router >
+        <Fragment>
+          {screen}
+        </Fragment>
+      </Router >
+    );
+  }
+}
 
 export default App;

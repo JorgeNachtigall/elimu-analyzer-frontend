@@ -1,4 +1,4 @@
-.topbar{
+.topbar {
     background-color: #fff;
     height: 60px;
     overflow: hidden;
@@ -14,11 +14,12 @@
     background: rgba(173, 173, 173, 0.5);
 }
 
-.topbar > a, span {
+.topbar>a,
+span {
     padding: 10px 10px 10px 10px;
     font-size: 1rem;
 }
 
-.topbar > .userImage{
+.topbar>.userImage {
     padding: 6px 0px 0px 0px;
 }

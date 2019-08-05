@@ -1,7 +1,30 @@
 import React, { Component, Fragment } from 'react';
 import { Header, Icon, Button, Divider, Form, Grid, Segment } from 'semantic-ui-react';
+import Fire from '../../config/Fire';
 
 class Login extends Component {
+    constructor(props) {
+        super(props);
+        this.login = this.login.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            email: '',
+            password: ''
+        }
+    }
+
+    login(e) {
+        e.preventDefault();
+        Fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+
     render() {
         return (
             <Fragment>
@@ -16,9 +39,9 @@ class Login extends Component {
                         <Grid.Column>
                             <p>Faça login em sua conta</p>
                             <Form>
-                                <Form.Input icon='user' iconPosition='left' label='Username' placeholder='Email' />
-                                <Form.Input icon='lock' iconPosition='left' label='Password' type='password' placeholder='Senha' />
-                                <Button content='Login' primary />
+                                <Form.Input icon='user' iconPosition='left' label='Username' placeholder='Email' onChange={this.handleChange} value={this.state.email} name="email" />
+                                <Form.Input icon='lock' iconPosition='left' label='Password' type='password' placeholder='Senha' onChange={this.handleChange} value={this.state.password} name="password" />
+                                <Button content='Login' onClick={this.login} primary />
                             </Form>
                         </Grid.Column>
 

@@ -1,0 +1,24 @@
+.topbar{
+    background-color: #fff;
+    height: 60px;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #fff;
+    padding: 10px 0 10px 0;
+}
+
+.divideer {
+    width: 1px;
+    height: 100%;
+    background: rgba(173, 173, 173, 0.5);
+}
+
+.topbar > a, span {
+    padding: 10px 10px 10px 10px;
+    font-size: 1rem;
+}
+
+.topbar > .userImage{
+    padding: 6px 0px 0px 0px;
+}

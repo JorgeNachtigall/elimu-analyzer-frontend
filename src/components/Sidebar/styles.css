@@ -1,0 +1,52 @@
+.sidebar{
+    width: 230px;
+    overflow: auto;
+    background-color: #388aff;
+    height: 100%;
+    padding: 20px 15px 20px 15px;
+}
+
+.sidebar > a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #dbdbdb;
+}
+
+.sidebar > i {
+    font-size: 1rem;
+    color: #cecece;
+}
+
+.sidebar > a:hover {
+    color: #ffffff;
+}
+
+.sidebar > a:hover > i { 
+    color: #ffffff;
+}
+
+.sidebar > a.active{
+    color: #ffffff;
+}
+
+.sidebar > a.active > i{
+    color: #ffffff;
+}
+
+.sidebar > a.logo {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.sidebar > a.logo > i{
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: 800;
+    text-transform: uppercase;
+}

@@ -1,0 +1,6 @@
+.content {
+    overflow: auto;
+    display: flex;
+    background-color: #fff;
+    height: 1000px;
+}

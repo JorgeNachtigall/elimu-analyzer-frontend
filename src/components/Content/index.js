@@ -19,7 +19,6 @@ class Main extends Component {
         return (
             <div class="content">
                 <button onClick={this.logout}> Logout </button>
-                <Redirect to="/" />
             </div>
         );
     }

@@ -60,7 +60,7 @@ class App extends Component {
 
     {this.state.user ? (<Main />) : (
             <div class='loginMenu'>
-              <Route exact path="/" component={Login} />
+              
             </div>
           )}
 

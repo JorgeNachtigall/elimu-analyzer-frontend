@@ -1,6 +1,3 @@
-import {
-    BrowserRouter as Redirect
-} from 'react-router-dom';
 import React, { Component } from 'react';
 import './styles.css';
 import Fire from '../../config/Fire';

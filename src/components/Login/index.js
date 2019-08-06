@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Header, Icon, Button, Divider, Form, Grid, Segment } from 'semantic-ui-react';
 import Fire from '../../config/Fire';
 import './styles.css';
@@ -7,36 +7,41 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.login = this.login.bind(this);
-        this.signup = this.login.bind(this);
+        this.signUp = this.signUp.bind(this);
         this.handleChangeLogin = this.handleChangeLogin.bind(this);
         this.handleChangeSignUp = this.handleChangeSignUp.bind(this);
         this.state = {
             email: '',
             password: '',
-            signUp: {
-                firstName: '',
-                lastName: '',
-                email: '',
-                password: '',
-                confirmPassword: ''
-            }
+            firstName: '',
+            lastName: '',
+            emailSignup: '',
+            passwordSignup: '',
+            confirmPassword: ''
         }
     }
 
     login(e) {
         e.preventDefault();
         Fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
+
         }).catch((error) => {
             console.log(error);
         });
     }
 
     signUp(e) {
+        let database = Fire.database();
+        let userPath = database.ref('users');
+        console.log(userPath);
         e.preventDefault();
-        Fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
-        }).catch((error) => {
-            console.log(error);
-        });
+        if (this.state.passwordSignup === this.state.confirmPassword) {
+            Fire.auth().createUserWithEmailAndPassword(this.state.emailSignup, this.state.passwordSignup).then((user) => {
+                userPath.push(user.uid);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
     }
 
     handleChangeLogin(e) {
@@ -44,7 +49,7 @@ class Login extends Component {
     }
 
     handleChangeSignUp(e) {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ [[e.target.name]]: e.target.value });
     }
 
     render() {
@@ -74,9 +79,9 @@ class Login extends Component {
                                     <Form.Input fluid label='Nome' placeholder='First name' />
                                     <Form.Input fluid label='Sobrenome' placeholder='Last name' />
                                 </Form.Group>
-                                <Form.Input label='E-mail' placeholder='Email' onChange={this.handleChangeSignUp} value={this.state.signUp.email} name="" />
-                                <Form.Input label='Senha' type='password' placeholder='Senha' onChange={this.handleChangeSignUp} value={this.state.signUp.password} />
-                                <Form.Input label='Confirme sua senha' placeholder='Confirme sua senha' onChange={this.handleChangeSignUp} value={this.state.signUp.confirmPassword} />
+                                <Form.Input label='E-mail' placeholder='Email' onChange={this.handleChangeSignUp} value={this.state.emailSignup} name="emailSignup" />
+                                <Form.Input label='Senha' type='password' placeholder='Senha' onChange={this.handleChangeSignUp} value={this.state.passwordSignup} name="passwordSignup" />
+                                <Form.Input label='Confirme sua senha' type='password' placeholder='Confirme sua senha' onChange={this.handleChangeSignUp} value={this.state.confirmPassword} name="confirmPassword" />
                                 <Button content='Registre-se' onClick={this.signUp} primary />
 
                             </Form>

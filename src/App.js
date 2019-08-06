@@ -1,7 +1,7 @@
 import {
   Switch, Route, Redirect
 } from 'react-router-dom';
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import Login from './components/Login';
 import Main from './components/Main';
 import Fire from './config/Fire';
@@ -47,7 +47,13 @@ class App extends Component {
   render() {
     return (
       <Switch>
+
         <Route exact path='/' render={() => {
+          if (this.state.isLoggedIn) { return <Main /> }
+          else { return <Redirect to='/login' /> }
+        }} />
+
+        <Route exact path='/main' render={() => {
           if (this.state.isLoggedIn) { return <Main /> }
           else { return <Redirect to='/login' /> }
         }} />

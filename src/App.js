@@ -1,5 +1,5 @@
 import {
-  BrowserRouter as Router, Route, Redirect
+  Switch, Route, Redirect
 } from 'react-router-dom';
 import React, { Fragment, Component } from 'react';
 import Login from './components/Login';
@@ -45,33 +45,19 @@ class App extends Component {
   }
 
   render() {
-
-    const isLoggedIn = this.state.isLoggedIn;
-    let screen;
-
-    if (isLoggedIn) {
-      screen = <Main />
-
-    } else {
-      screen = <div class='loginMenu'> <Login /> </div>
-    }
-
-    /*
-
-    {this.state.user ? (<Main />) : (
-            <div class='loginMenu'>
-              
-            </div>
-          )}
-
-    */
     return (
-      <Router >
-        <Fragment>
-          {screen}
-        </Fragment>
-      </Router >
-    );
+      <Switch>
+        <Route exact path='/' render={() => {
+          if (this.state.isLoggedIn) { return <Main /> }
+          else { return <Redirect to='/login' /> }
+        }} />
+
+        <Route exact path='/login' render={() => {
+          if (this.state.isLoggedIn) { return <Redirect to='/main' /> }
+          else { return <Login /> }
+        }} />
+      </Switch>
+    )
   }
 }
 

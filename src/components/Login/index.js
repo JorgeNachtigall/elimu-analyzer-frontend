@@ -27,7 +27,7 @@ class Login extends Component {
 
     render() {
         return (
-            <Fragment>
+            <div class='loginMenu'>
                 <Header as='h2' icon inverted textAlign='center'>
                     <Icon name='users' />
                     Scratch Analyzer
@@ -51,7 +51,7 @@ class Login extends Component {
                     </Grid>
                     <Divider vertical>Ou</Divider>
                 </Segment>
-            </Fragment>
+            </div>
         );
     }
 }

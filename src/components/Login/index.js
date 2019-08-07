@@ -8,8 +8,7 @@ class Login extends Component {
         super(props);
         this.login = this.login.bind(this);
         this.signUp = this.signUp.bind(this);
-        this.handleChangeLogin = this.handleChangeLogin.bind(this);
-        this.handleChangeSignUp = this.handleChangeSignUp.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.state = {
             email: '',
             password: '',
@@ -23,7 +22,7 @@ class Login extends Component {
 
     login(e) {
         e.preventDefault();
-        Fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
+        Fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((data) => {
 
         }).catch((error) => {
             console.log(error);
@@ -32,24 +31,25 @@ class Login extends Component {
 
     signUp(e) {
         let database = Fire.database();
-        let userPath = database.ref('users');
-        console.log(userPath);
         e.preventDefault();
         if (this.state.passwordSignup === this.state.confirmPassword) {
-            Fire.auth().createUserWithEmailAndPassword(this.state.emailSignup, this.state.passwordSignup).then((user) => {
-                userPath.push(user.uid);
-            }).catch((error) => {
+            let user = {
+                type: 'user',
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.emailSignup
+            }
+            Fire.auth().createUserWithEmailAndPassword(this.state.emailSignup, this.state.passwordSignup).then(function (data) {
+                let userPath = database.ref('users/' + data.user.uid);
+                userPath.set(user);
+            }).catch(function (error) {
                 console.log(error);
             });
         }
     }
 
-    handleChangeLogin(e) {
+    handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
-    }
-
-    handleChangeSignUp(e) {
-        this.setState({ [[e.target.name]]: e.target.value });
     }
 
     render() {
@@ -66,8 +66,8 @@ class Login extends Component {
                         <Grid.Column>
                             <p>Faça login em sua conta</p>
                             <Form>
-                                <Form.Input icon='user' iconPosition='left' label='E-mail' placeholder='Email' onChange={this.handleChangeLogin} value={this.state.email} name="email" />
-                                <Form.Input icon='lock' iconPosition='left' label='Senha' type='password' placeholder='Senha' onChange={this.handleChangeLogin} value={this.state.password} name="password" />
+                                <Form.Input icon='user' iconPosition='left' label='E-mail' placeholder='Email' onChange={this.handleChange} value={this.state.email} name="email" />
+                                <Form.Input icon='lock' iconPosition='left' label='Senha' type='password' placeholder='Senha' onChange={this.handleChange} value={this.state.password} name="password" />
                                 <Button content='Login' onClick={this.login} primary />
                             </Form>
                         </Grid.Column>
@@ -76,12 +76,12 @@ class Login extends Component {
                             <p>Cadastre-se</p>
                             <Form>
                                 <Form.Group widths='equal'>
-                                    <Form.Input fluid label='Nome' placeholder='First name' />
-                                    <Form.Input fluid label='Sobrenome' placeholder='Last name' />
+                                    <Form.Input fluid label='Nome' placeholder='First name' onChange={this.handleChange} value={this.state.firstName} name="firstName" />
+                                    <Form.Input fluid label='Sobrenome' placeholder='Last name' onChange={this.handleChange} value={this.state.lastName} name="lastName" />
                                 </Form.Group>
-                                <Form.Input label='E-mail' placeholder='Email' onChange={this.handleChangeSignUp} value={this.state.emailSignup} name="emailSignup" />
-                                <Form.Input label='Senha' type='password' placeholder='Senha' onChange={this.handleChangeSignUp} value={this.state.passwordSignup} name="passwordSignup" />
-                                <Form.Input label='Confirme sua senha' type='password' placeholder='Confirme sua senha' onChange={this.handleChangeSignUp} value={this.state.confirmPassword} name="confirmPassword" />
+                                <Form.Input label='E-mail' placeholder='Email' onChange={this.handleChange} value={this.state.emailSignup} name="emailSignup" />
+                                <Form.Input label='Senha' type='password' placeholder='Senha' onChange={this.handleChange} value={this.state.passwordSignup} name="passwordSignup" />
+                                <Form.Input label='Confirme sua senha' type='password' placeholder='Confirme sua senha' onChange={this.handleChange} value={this.state.confirmPassword} name="confirmPassword" />
                                 <Button content='Registre-se' onClick={this.signUp} primary />
 
                             </Form>

@@ -5,6 +5,12 @@ import Content from '../Content';
 import './style.css';
 
 class Main extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            valor: 50
+        }
+    }
     render() {
         return (
             <Fragment>
@@ -12,7 +18,7 @@ class Main extends Component {
                     <Sidebar />
                     <div class='wrapper-right'>
                         <Topbar />
-                        <Content />
+                        <Content estado={this.state} />
                     </div>
                 </div>
             </Fragment >

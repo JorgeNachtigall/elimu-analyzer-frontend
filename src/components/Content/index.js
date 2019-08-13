@@ -3,10 +3,13 @@ import './styles.css';
 import Fire from '../../config/Fire';
 import Realtime from '../Realtime';
 
-class Main extends Component {
+class Content extends Component {
     constructor(props) {
         super(props);
         this.logout = this.logout.bind(this);
+        this.state = {
+            menu: 0
+        }
     }
 
     logout = () => {
@@ -36,4 +39,4 @@ class Main extends Component {
     }
 }
 
-export default Main;
+export default Content;

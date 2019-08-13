@@ -29,10 +29,10 @@ class Topbar extends Component {
     render() {
         return (
             <div class='topbar'>
-                <a href='#home'>Testando</a>
-                <a href='#home'>Testando</a>
-                <a href='#home'>Testando</a>
-                <a href='#home'>Testando</a>
+                <a href='/home'>Testando</a>
+                <a href='/home'>Testando</a>
+                <a href='/home'>Testando</a>
+                <a href='/turmas'>Testando</a>
                 <div class='divideer'></div>
                 <a href='#user'>{this.state.user}</a>
                 <div class='userImage'>

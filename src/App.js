@@ -19,11 +19,11 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.authListener();
   }
 
-  authListener() {
+  authListener = () => {
     Fire.auth().onAuthStateChanged((user) => {
       if (user && this.state.isLoggedIn) {
         this.setState({

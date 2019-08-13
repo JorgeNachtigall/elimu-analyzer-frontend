@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './styles.css';
 import Fire from '../../config/Fire';
+import Realtime from '../Realtime';
 
 class Main extends Component {
     constructor(props) {
@@ -8,16 +9,30 @@ class Main extends Component {
         this.logout = this.logout.bind(this);
     }
 
-    logout() {
+    logout = () => {
         Fire.auth().signOut();
     }
 
+    controlContent = () => {
+
+    }
+
     render() {
-        return (
-            <div class="content">
-                <button onClick={this.logout}> Logout </button>
-            </div>
-        );
+        if (this.props.menuOption === 0) {
+            return (
+                <div class='content'>
+                    <Realtime />
+                </div>
+            );
+        }
+        else if (this.props.menuOption === 1) {
+            return (
+                <div class="content">
+                    <button onClick={this.logout}> OUTRA OPÇÃO </button>
+                </div>
+            );
+        }
+
     }
 }
 

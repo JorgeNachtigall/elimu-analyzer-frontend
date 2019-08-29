@@ -1,37 +1,25 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import Topbar from '../Topbar';
 import Sidebar from '../Sidebar';
 import Content from '../Content';
 import './style.css';
 
-class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.output = this.output.bind(this);
-        this.state = {
-            menuOption: 0
-        }
+export default function Main() {
+    const [menuOption, setMenuOption] = useState(0);
+
+    function output(evt) {
+        setMenuOption(evt);
     }
 
-    render
-
-    output = (evt) => {
-        this.setState({ menuOption: evt });
-    }
-
-    render() {
-        return (
-            <div>
-                <div class='wrapper'>
-                    <Sidebar func={this.output} />
-                    <div class='wrapper-right'>
-                        <Topbar />
-                        <Content menuOption={this.state.menuOption} />
-                    </div>
+    return (
+        <div>
+            <div class='wrapper'>
+                <Sidebar func={output} />
+                <div class='wrapper-right'>
+                    <Topbar />
+                    <Content menuOption={menuOption} />
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
-
-export default Main;

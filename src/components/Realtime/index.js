@@ -1,13 +1,9 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 import ScratchBlocks from 'scratch-blocks';
 
-class Realtime extends Component {
-    render() {
-        return (
-            <div></div>
-        );
-    }
+export default function Realtime() {
+    return (
+        <div></div>
+    );
 }
-
-export default Realtime;

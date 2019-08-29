@@ -1,86 +1,86 @@
 import {
-  Switch, Route, Redirect
+  BrowserRouter, Switch, Route, Redirect
 } from 'react-router-dom';
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import Login from './components/Login';
 import Main from './components/Main';
 import Fire from './config/Fire';
 import { Loader, Dimmer } from 'semantic-ui-react';
 import localStorage from 'local-storage';
 import './App.css';
+import { app } from 'firebase';
 
-class App extends Component {
+function App() {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: {},
-      isLoggedIn: false,
-      loading: true
-    }
-  }
+  const [user, setUser] = useState({});
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  componentDidMount = () => {
-    this.authListener();
-  }
+  useEffect(() => authListener());
 
-  authListener = () => {
-    Fire.auth().onAuthStateChanged((user) => {
-      if (user && this.state.isLoggedIn) {
-        this.setState({
-          user: null,
-          isLoggedIn: false,
-          loading: false
-        });
+  function authListener() {
+    Fire.auth().onAuthStateChanged((data) => {
+      if (data && isLoggedIn) {
+        setUser(null);
+        setLoggedIn(false);
+        setLoading(false);
       }
-      else if (user && !this.state.isLoggedIn) {
-        if (!localStorage.get(user.uid)) {
-          localStorage.set(user.uid, true);
+      else if (data && !isLoggedIn) {
+        if (!localStorage.get(data.uid)) {
+          localStorage.set(data.uid, true);
         }
-        this.setState({
-          user: user,
-          isLoggedIn: true,
-          loading: false
-        });
+        setUser(data);
+        setLoggedIn(true);
+        setLoading(false);
       }
       else {
-        this.setState({
-          user: null,
-          isLoggedIn: false,
-          loading: false
-        })
+        setUser(null);
+        setLoggedIn(false);
+        setLoading(false);
       }
     });
   }
 
-  render() {
-    return (
-      <Switch>
-        <Route exact path='/' render={() => {
-          if (this.state.isLoggedIn) { return <Main /> }
-          else { return <Redirect to='/login' /> }
-        }
-        } />
-
-        <Route exact path='/main' render={() => {
-          if (this.state.loading) {
-            return (<Dimmer active>
-              <Loader>Loading</Loader>
-            </Dimmer>)
-          }
-          else if (this.state.isLoggedIn) { return <Main /> }
-          else { return <Redirect to='/login' /> }
-        }
-        } />
-
-        <Route exact path='/login' render={() => {
-          if (this.state.isLoggedIn) { return <Redirect to='/main' /> }
-          else { return <Login /> }
-        }
-        } />
-      </Switch>
-    )
+  function requireAuth(nextState, replace){
+    if(!isLoggedIn){
+      replace({ pathname: '/login' })
+    }
   }
+
+  return (
+    <Route path="/" component={Login}>
+      <Route path="login" component={Login} />
+      <Route path="main" component={Main} onEnter={requireAuth}/>
+    </Route>
+  );
+
+  /*return (
+    <Switch>
+      <Route exact path='/' render={() => {
+        if (isLoggedIn) { return <Main /> }
+        else { return <Redirect to='/login' /> }
+      }
+      } />
+
+      <Route exact path='/main' render={() => {
+        if (loading) {
+          return (<Dimmer active>
+            <Loader>Loading</Loader>
+          </Dimmer>)
+        }
+        else if (isLoggedIn) { return <Main /> }
+        else { return <Redirect to='/login' /> }
+      }
+      } />
+
+      <Route exact path='/login' render={() => {
+        if (isLoggedIn) { return <Redirect to='/main' /> }
+        else { return <Login /> }
+      }
+      } />
+    </Switch>
+  );*/
+  
 }
 
 export default App;

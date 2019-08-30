@@ -1,42 +1,33 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import './styles.css';
 import Fire from '../../config/Fire';
 import Realtime from '../Realtime';
 
-class Content extends Component {
-    constructor(props) {
-        super(props);
-        this.logout = this.logout.bind(this);
-        this.state = {
-            menu: 0
-        }
+function Content(props) {
+
+    const [menuOption, setMenuOption] = useState(1);
+
+    async function logout() {
+        await Fire.logout();
+        props.history.push('/');
+        console.log('oi');
     }
 
-    logout = () => {
-        Fire.auth().signOut();
+    if (menuOption === 0) {
+        return (
+            <div class='content'>
+                <Realtime />
+            </div>
+        );
     }
-
-    controlContent = () => {
-
-    }
-
-    render() {
-        if (this.props.menuOption === 0) {
-            return (
-                <div class='content'>
-                    <Realtime />
-                </div>
-            );
-        }
-        else if (this.props.menuOption === 1) {
-            return (
-                <div class="content">
-                    <button onClick={this.logout}> OUTRA OPÇÃO </button>
-                </div>
-            );
-        }
-
+    else if (menuOption === 1) {
+        return (
+            <div class="content">
+                <button onClick={logout}> OUTRA OPÇÃO </button>
+            </div>
+        );
     }
 }
 
-export default Content;
+export default withRouter(Content);

@@ -1,18 +1,35 @@
 import {
-  BrowserRouter, Switch, Route, Redirect
+  Switch, Route
 } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import Login from './components/Login';
 import Main from './components/Main';
 import Fire from './config/Fire';
 import { Loader, Dimmer } from 'semantic-ui-react';
-import localStorage from 'local-storage';
 import './App.css';
-import { app } from 'firebase';
 
-function App() {
+export default function App() {
 
-  const [user, setUser] = useState({});
+  const [firebaseInitialized, setFirebaseInitialized] = useState(false)
+
+  useEffect(() => {
+    Fire.isInitialized().then(val => {
+      setFirebaseInitialized(val);
+    });
+  });
+
+  return firebaseInitialized !== false ? (
+    <Switch>
+      <Route exact path="/" component={Login} />
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/main" component={Main} />
+    </Switch>
+  ) : (
+      <Dimmer active>
+        <Loader>Loading</Loader>
+      </Dimmer>
+    );
+  /*const [user, setUser] = useState({});
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -54,7 +71,7 @@ function App() {
     </Route>
   );
 
-  /*return (
+  return (
     <Switch>
       <Route exact path='/' render={() => {
         if (isLoggedIn) { return <Main /> }
@@ -80,7 +97,5 @@ function App() {
       } />
     </Switch>
   );*/
-  
-}
 
-export default App;
+}

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Header, Icon, Button, Divider, Form, Grid, Segment } from 'semantic-ui-react';
 import Fire from '../../config/Fire';
 import './styles.css';
 
-export default function Login() {
-    
+function Login(props) {
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -13,31 +14,25 @@ export default function Login() {
     const [passwordSignup, setPasswordSignup] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    function login(e) {
+    async function login(e) {
         e.preventDefault();
-        Fire.auth().signInWithEmailAndPassword(email, password).then((data) => {
-
-        }).catch((error) => {
-            console.log(error);
-        });
+        try {
+            await Fire.login(email, password);
+            props.history.replace('/main');
+        } catch (error) {
+            alert(error.message);
+        }
     }
 
-    function signUp(e) {
-        let database = Fire.database();
+    async function onRegister(e) {
         e.preventDefault();
         if (passwordSignup === confirmPassword) {
-            let user = {
-                type: 'user',
-                firstName: firstName,
-                lastName: lastName,
-                email: emailSignup
+            try {
+                await Fire.register(firstName, lastName, emailSignup, passwordSignup);
+                props.history.replace('/main');
+            } catch (error) {
+                alert(error.message)
             }
-            Fire.auth().createUserWithEmailAndPassword(emailSignup, passwordSignup).then(function (data) {
-                let userPath = database.ref('users/' + data.user.uid);
-                userPath.set(user);
-            }).catch(function (error) {
-                console.log(error);
-            });
         }
     }
 
@@ -70,7 +65,7 @@ export default function Login() {
                             <Form.Input label='E-mail' placeholder='Email' onChange={e => setEmailSignup(e.target.value)} value={emailSignup} name="emailSignup" />
                             <Form.Input label='Senha' type='password' placeholder='Senha' onChange={e => setPasswordSignup(e.target.value)} value={passwordSignup} name="passwordSignup" />
                             <Form.Input label='Confirme sua senha' type='password' placeholder='Confirme sua senha' onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} name="confirmPassword" />
-                            <Button content='Registre-se' onClick={signUp} primary />
+                            <Button content='Registre-se' onClick={onRegister} primary />
 
                         </Form>
                     </Grid.Column>
@@ -78,5 +73,7 @@ export default function Login() {
                 <Divider vertical>Ou</Divider>
             </Segment>
         </div>
-        );
+    );
 }
+
+export default withRouter(Login);

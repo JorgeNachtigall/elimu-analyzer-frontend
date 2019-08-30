@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { } from 'react';
 import './styles.css';
 
-export default function Sidebar(props){
+export default function Sidebar(props) {
 
     return (
         <div class="sidebar">

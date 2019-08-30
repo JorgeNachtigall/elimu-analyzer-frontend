@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
+import { withRouter } from 'react-router-dom';
 import defaultUser from '../../img/default-user.png';
 import Fire from '../../config/Fire.js'
-import { getUserFirstName } from '../../utils';
 
-export default function Topbar(){
+function Topbar(props) {
 
     const [user, setUser] = useState('');
 
-    function setName() {
-        Fire.auth().currentUser.getIdToken(true).then(idToken => {
-            getUserFirstName(idToken).then(response => {
-                setUser(response.data);
-                console.log(user);
-            });
-        });
-    }
+    useEffect(() => {
+        setUser(Fire.getCurrentUsername());
+    }, []);
 
-    useEffect(() => setName());
-        
     return (
         <div class='topbar'>
             <a href='/home'>Testando</a>
@@ -32,5 +25,6 @@ export default function Topbar(){
             </div>
         </div>
     );
-
 }
+
+export default withRouter(Topbar);

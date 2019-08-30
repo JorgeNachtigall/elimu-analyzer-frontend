@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Header, Icon, Button, Divider, Form, Grid, Segment } from 'semantic-ui-react';
 import Fire from '../../config/Fire';
@@ -13,12 +13,14 @@ function Login(props) {
     const [emailSignup, setEmailSignup] = useState('');
     const [passwordSignup, setPasswordSignup] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [isLogged, setIsLogged] = useState(false);
 
     async function login(e) {
         e.preventDefault();
         try {
             await Fire.login(email, password);
             props.history.replace('/main');
+            setIsLogged(true);
         } catch (error) {
             alert(error.message);
         }
@@ -66,7 +68,6 @@ function Login(props) {
                             <Form.Input label='Senha' type='password' placeholder='Senha' onChange={e => setPasswordSignup(e.target.value)} value={passwordSignup} name="passwordSignup" />
                             <Form.Input label='Confirme sua senha' type='password' placeholder='Confirme sua senha' onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} name="confirmPassword" />
                             <Button content='Registre-se' onClick={onRegister} primary />
-
                         </Form>
                     </Grid.Column>
                 </Grid>

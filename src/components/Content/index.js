@@ -11,7 +11,6 @@ function Content(props) {
     async function logout() {
         await Fire.logout();
         props.history.push('/');
-        console.log('oi');
     }
 
     if (menuOption === 0) {

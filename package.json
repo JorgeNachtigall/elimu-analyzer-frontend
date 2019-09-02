@@ -10,6 +10,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
+    "react-scratchblocks": "^1.1.1",
     "react-scripts": "^3.0.1",
     "scratch-blocks": "0.1.0-prerelease.1564769819",
     "semantic-ui-css": "^2.4.1",

@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import './styles.css';
 import Fire from '../../config/Fire';
 import Realtime from '../Realtime';
+import Scratchblocks from 'react-scratchblocks'
 
 function Content(props) {
 

@@ -1,0 +1,9 @@
+.ui.cards{
+    padding: 10px 10px 10px 10px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.ui.card{
+    height: 180px;
+}

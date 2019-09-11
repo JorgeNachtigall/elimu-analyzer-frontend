@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import './styles.css';
 import Fire from '../../config/Fire';
 import Realtime from '../Realtime';
-import Scratchblocks from 'react-scratchblocks'
 
 function Content(props) {
 
-    const [menuOption, setMenuOption] = useState(1);
+    const [menuOption, setMenuOption] = useState(0);
 
     async function logout() {
         await Fire.logout();
         props.history.push('/');
     }
+
 
     if (menuOption === 0) {
         return (
@@ -24,7 +24,6 @@ function Content(props) {
     else if (menuOption === 1) {
         return (
             <div class="content">
-                <button onClick={logout}> OUTRA OPÇÃO </button>
             </div>
         );
     }

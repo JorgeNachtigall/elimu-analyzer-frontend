@@ -33,7 +33,9 @@ function Main(props) {
         return (
             <div>
                 <div class='wrapper'>
-                    <Sidebar func={output} />
+                    <div class='sidebar'>
+                        <Sidebar func={output} />
+                    </div>
                     <div class='wrapper-right'>
                         <Topbar />
                         <Content menuOption={menuOption} />
